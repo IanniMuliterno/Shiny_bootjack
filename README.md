@@ -10,7 +10,9 @@ Repository created to follow practices in simulation that include bootstrap and 
 
 # Packages used
 
-shiny
-ggplot2
+shiny;
+
+ggplot2;
+
 MASS
 
