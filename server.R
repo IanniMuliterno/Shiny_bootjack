@@ -108,15 +108,45 @@ shinyServer(function(input, output) {
       upper_jack <-mean_jack + sqrt((n-1)*mean((jack-mean_jack)^2))*1.96 # para criação do IC da média
       lower_jack <-mean_jack - sqrt((n-1)*mean((jack-mean_jack)^2))*1.96
       
-      boot_jack <- data.frame(resample_boot = B1,n=rep(n,length(B1)),estimation=mean_by_resample,upper_lim= upperval_by_resample,lower_lim = lowerval_by_resample,sd_boot=mean_by_resample)
-      demo_plot<-ggplot(data=boot_jack, aes(x=resample_boot, y=estimation)) + geom_point() + geom_line() + ggtitle("Estimation of the mean") + theme(plot.title = element_text(lineheight=.8, face="bold"))
-      demo_plot+ geom_hline(yintercept=input$mean_norm, linetype=3, color = "blue", size=1) +
-         geom_line(aes(resample_boot, upper_lim, colour="IC bootstrap"), boot_jack) +  
-          geom_line(aes(resample_boot, lower_lim, colour="IC bootstrap"), boot_jack) + 
-       geom_hline(yintercept=mean_jack, color = "grey",colour="jack") +
-        geom_hline(yintercept=upper_jack,linetype=4, color = "grey",colour="jack UL",size=1) +
-      geom_hline(yintercept=lower_jack,linetype=4, color = "grey",colour="jack LM",size=1)
-         
+      
+      #Data frame para apresentar
+      boot_jack_presentation <- data.frame(length_resample_boot = B1,boot_estimation=mean_by_resample,
+                              boot_upper_lim= upperval_by_resample,boot_lower_lim = lowerval_by_resample,
+                              jack_estimation = rep(mean_jack,length(B1)) ,jack_upper_lim=rep(upper_jack,length(B1))
+                              , jack_lower_lim =rep(lower_jack,length(B1)))
+      
+      ################ Arranjando data_frame para plotar com ggplot #####################
+      
+      # 0 - valor real do parâmetro
+      real<- data.frame(length_resample_boot = B1, v=input$mean_norm, nome = 'Real value')
+      
+      # 1 - valor estimado bootstrap
+      d1<- data.frame(length_resample_boot = B1, v=mean_by_resample, nome = 'bootstrap')
+      
+      # 2 - limite superior bootstrap
+      d2<- data.frame(length_resample_boot = B1, v= upperval_by_resample, nome = 'boot upper lim')
+      
+      # 3 - limite inferior bootstrap
+      d3<- data.frame(length_resample_boot = B1, v= lowerval_by_resample, nome = 'boot lower lim')
+      
+      # 4 - valor estimado jackknife
+      d4<- data.frame(length_resample_boot = B1, v=rep(mean_jack,length(B1)), nome = 'jack estimation')
+      
+      # 5 - limite superior jackknife
+      d5<- data.frame(length_resample_boot = B1, v= rep(lower_jack,length(B1)), nome = 'jack upper lim')
+      
+      # 6 - limite inferior jackknife
+      d6<- data.frame(length_resample_boot = B1,v =rep(lower_jack,length(B1)), nome = 'jack lower lim')
+      
+      boot_jack <-rbind.data.frame(real,d1,d2,d3,d4,d5,d6)
+      colnames(boot_jack) <- c("length_resample_boot","estimation","nome")
+      ##############
+      
+      #plot
+      demo_plot<-ggplot(data=boot_jack, aes(x=length_resample_boot, y=v,colour=nome)) + geom_point() + geom_line() 
+      + ggtitle("Estimation of the mean") + theme(plot.title = element_text(lineheight=.8, face="bold"))
+      
+      #demo_plot+  
       }else{
       if(input$dist == "gam"){
         
