@@ -8,7 +8,7 @@ Repository created to follow practices in simulation that include bootstrap and 
 
 
 
-# Packages used
+# Packages 
 
 shiny;
 
@@ -16,10 +16,10 @@ ggplot2;
 
 MASS
 
-## Docente
+## Professor/Docente
 
 André Leite
 
-## Aluna
+## Pupil/Aluna
 
 Ianní Muliterno
