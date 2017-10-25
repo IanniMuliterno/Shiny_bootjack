@@ -1,5 +1,5 @@
 # Shiny_bootjack
-Practicing shiny and resampling
+
 
 Repositório criado para acompanhamento de praticas de simulação envolvendo bootstrap e jackknife.
 
@@ -16,3 +16,10 @@ ggplot2;
 
 MASS
 
+## Docente
+
+André Leite
+
+##Aluna
+
+Ianní Muliterno
