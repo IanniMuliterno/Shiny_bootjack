@@ -35,7 +35,7 @@ shinyServer(function(input, output) {
             numericInput("sd_log", "sdlog", 1))
         }else{
           if(input$dist == "exp"){
-            numericInput("rate_exp", "rate", 1)
+            numericInput("rate_exp", "rate", 1) 
           }
           else{
             tagList(
